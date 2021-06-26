@@ -1,0 +1,10 @@
+dist
+lib
+node_modules
+coverage
+docs
+
+.idea
+*.iml
+
+*.log
