@@ -19,6 +19,18 @@ describe('game.mod', () => {
     });
   });
 
+  describe('game.mod.install()', () => {
+    it('should be created without errors', async () => {
+      expect.hasAssertions();
+      await game.mod.install({
+        package: 'C:\\Users\\pstra\\Downloads\\ClassicalEra.zip',
+        folderName: 'ClassicalEra',
+        //onExtract: (entry, outPath) => console.log(entry, outPath),
+      });
+      expect(true).toBe(true);
+    });
+  });
+
   describe('game.mod.get()', () => {
     let mod: Mod;
 

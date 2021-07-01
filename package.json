@@ -20,7 +20,8 @@
     "drivelist": "^9.2.4",
     "fast-glob": "^3.2.5",
     "ini": "^2.0.0",
-    "merge-stream": "^2.0.0"
+    "merge-stream": "^2.0.0",
+    "node-stream-zip": "^1.13.6"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
