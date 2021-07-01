@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "license": "MIT",
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
   "author": {
     "name": "Vitaly Pereslavtsev",
     "email": "dev@pereslavtsev.com",
@@ -11,13 +17,14 @@
   "scripts": {
     "build": "webpack",
     "dev": "yarn build --config .\\webpack-hmr.config.js --watch",
-    "test": "jest --runInBand --detectOpenHandles --colors --verbose --reporters=default",
+    "test": "jest --runInBand --colors --verbose --reporters=default",
     "test:coverage": "yarn test --coverage",
     "test:debug": "cross-env DEBUG=* yarn test"
   },
   "dependencies": {
     "debug": "^4.3.1",
     "drivelist": "^9.2.4",
+    "execa": "^5.1.1",
     "fast-glob": "^3.2.5",
     "ini": "^2.0.0",
     "merge-stream": "^2.0.0",
