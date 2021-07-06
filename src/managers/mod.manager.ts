@@ -1,11 +1,11 @@
 import path from 'path';
 import fs from 'fs';
-import Mod from './classes/mod.class';
+import Mod from '../classes/mod.class';
 import fg, { Entry } from 'fast-glob';
-import Executable from './classes/executable.class';
+import Executable from '../classes/executable.class';
 import debug from 'debug';
 import StreamZip from 'node-stream-zip';
-import { ModInstallOptions } from './interfaces/mod-install-options.interface';
+import { ModInstallOptions } from '../interfaces/mod-install-options.interface';
 
 export class ModManager extends Executable {
   protected readonly debug = debug('game:mod');
