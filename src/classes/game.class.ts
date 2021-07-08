@@ -4,6 +4,7 @@ import execa from 'execa';
 import debug from 'debug';
 import { AssetsManager } from '../managers/assets.manager';
 import { GameType } from '../enums/game-type.enum';
+import wmic from 'wmic';
 
 export class Game extends Executable {
   protected readonly debug = debug('game');
@@ -39,6 +40,31 @@ export class Game extends Executable {
 
   get mod(): ModManager {
     return new ModManager(this.path);
+  }
+
+  protected get filename(): string {
+    switch (this.type) {
+      case GameType.BEYOND_THE_SWORD:
+        return 'Civ4BeyondSword.exe';
+      case GameType.VANILLA:
+      case GameType.WARLORDS:
+        return 'Civilization4.exe';
+    }
+  }
+
+  async getVersion(): Promise<string> {
+    const execPath = `${this.path}\\${this.filename}`
+      .replace(/\\/g, '\\\\')
+      .replace(/'/g, "\\'");
+    return new Promise((resolve, reject) => {
+      const cmd = ['datafile', 'where', `name='${execPath}'`].join(' ');
+      wmic.get_value(cmd, 'Version', null, (err: Error, value: string) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(value);
+      });
+    });
   }
 
   async run(mod?: string): Promise<void> {
