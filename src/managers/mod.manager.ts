@@ -1,9 +1,11 @@
 import path from 'path';
 import fs from 'fs';
-import Mod from './classes/mod.class';
+import Mod from '../classes/mod.class';
 import fg, { Entry } from 'fast-glob';
-import Executable from './classes/executable.class';
+import Executable from '../classes/executable.class';
 import debug from 'debug';
+import StreamZip from 'node-stream-zip';
+import { ModInstallOptions } from '../interfaces/mod-install-options.interface';
 
 export class ModManager extends Executable {
   protected readonly debug = debug('game:mod');
@@ -12,6 +14,33 @@ export class ModManager extends Executable {
     const folder = path.resolve(this.path, './Mods');
     this.debug('modsFolder: %s', folder);
     return folder;
+  }
+
+  async install(o: ModInstallOptions): Promise<void> {
+    const zip = new StreamZip.async({ file: o.package });
+
+    const entries = await zip.entries();
+    const configEntry = Object.values(entries).find((entry) =>
+      /[^/]+\.ini$/.test(entry.name)
+    );
+    this.debug('configEntry %o', configEntry);
+
+    if (!configEntry) {
+      await zip.close();
+      throw new Error('config has not found');
+    }
+
+    const matches = configEntry.name.match(/[^/]+\.ini$/);
+    this.debug('matches', matches);
+    const extractPath = configEntry.name.replace(matches[0], '');
+    this.debug('extractPath', extractPath);
+
+    // extract into folder
+    if (o.onExtract) {
+      zip.on('extract', o.onExtract);
+    }
+    await zip.extract(extractPath, path.join(this.modsFolder, o.folderName));
+    await zip.close();
   }
 
   async create(name: string): Promise<void> {

@@ -2,25 +2,35 @@
   "name": "@civ4pm/core",
   "version": "0.1.0",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
   "author": {
     "name": "Vitaly Pereslavtsev",
     "email": "dev@pereslavtsev.com",
     "url": "https://www.pereslavtsev.com/"
   },
   "scripts": {
-    "build": "webpack",
-    "dev": "yarn build --config .\\webpack-hmr.config.js --watch",
-    "test": "jest --runInBand --detectOpenHandles --colors --verbose --reporters=default",
+    "build": "webpack && dts-bundle-generator --silent -o dist/index.d.ts src/index.ts",
+    "dev": "webpack --config webpack-hmr.config.js --watch",
+    "test": "jest --runInBand --colors --verbose --reporters=default",
     "test:coverage": "yarn test --coverage",
     "test:debug": "cross-env DEBUG=* yarn test"
   },
   "dependencies": {
     "debug": "^4.3.1",
-    "drivelist": "^9.2.4",
+    "dts-bundle-generator": "^5.9.0",
+    "execa": "^5.1.1",
     "fast-glob": "^3.2.5",
     "ini": "^2.0.0",
-    "merge-stream": "^2.0.0"
+    "node-stream-zip": "^1.13.6",
+    "regedit": "^4.0.0",
+    "wmic": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

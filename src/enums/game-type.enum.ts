@@ -1,0 +1,5 @@
+export enum GameType {
+  VANILLA = 'VANILLA',
+  WARLORDS = 'WARLORDS',
+  BEYOND_THE_SWORD = 'BEYOND_THE_SWORD',
+}
